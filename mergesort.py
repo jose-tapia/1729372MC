@@ -3,25 +3,23 @@ cantidad = 0
 def unir(izq,der):
     arr=[]
     global cantidad
-    while ((izq!=[])and(der!=[])):
-        if(izq[0]<der[0]):
-            arr.append(izq[0])
-            izq.remove(izq[0])
+    n,m,i,j=len(izq),len(der),0,0
+    while (i!=n) and (j!=m):
+        if(izq[i]<der[j]):
+            arr.append(izq[i])
+            i+=1
         else:
-            arr.append(der[0])
-            der.remove(der[0])
+            arr.append(der[j])
+            j+=1
         cantidad+=1
-    return arr+izq+der
+    return arr+izq[i:]+der[j:]
 
 def mergesort(arr):
-    if len(arr)<=1:
+    n=len(arr)
+    if n<=1:
         return arr
-    izq=[]
-    for i in range(0,int(len(arr)/2)):
-        izq.append(arr[i])
-    der=[]
-    for i in range(int(len(arr)/2),len(arr)):
-        der.append(arr[i])
+    izq=arr[:int(n/2)]
+    der=arr[int(n/2):]
     izq=mergesort(izq)
     der=mergesort(der)
     return unir(izq,der)
