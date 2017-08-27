@@ -2,6 +2,7 @@ cantidad = 0
 
 def unir(izq,der):
     arr=[]
+    global cantidad
     while ((izq!=[])and(der!=[])):
         if(izq[0]<der[0]):
             arr.append(izq[0])
