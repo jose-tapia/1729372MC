@@ -1,7 +1,7 @@
 cantidad = 0
 
 def selectionsort(arr):
-	global cantidad
+    global cantidad
     aux=arr[:]
     for i in range(len(aux)):
         w=aux[i]
