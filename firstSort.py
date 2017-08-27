@@ -9,13 +9,12 @@ def minimo(arr):
     return k
 
 def ordenar(arr):
-    aux=arr
+    aux=arr[:]
     arrsort=[]
-    for k in range(len(arr)):
-        w=minimo(arr)
-        arr.remove(w)
+    for k in range(len(aux)):
+        w=minimo(aux)
+        aux.remove(w)
         arrsort.append(w)
-    arr=aux
     return arrsort
 
 import random
