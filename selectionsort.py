@@ -14,3 +14,10 @@ def selectionsort(arr):
         aux[ind]=aux[i]
         aux[i]=w
     return aux
+
+import random
+p=random.sample(range(0,100),40)
+print(p)
+psort=selectionsort(p)
+print(cantidad)
+print(psort)
