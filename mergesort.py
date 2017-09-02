@@ -23,3 +23,10 @@ def mergesort(arr):
     izq=mergesort(izq)
     der=mergesort(der)
     return unir(izq,der)
+
+import random
+p = random.sample(range(0,200),100)
+print(p)
+psorted=mergesort(p)
+print(cantidad)
+print(psorted)
