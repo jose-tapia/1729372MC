@@ -2,15 +2,19 @@ cantidad = 0
 
 def insertionsort(arr):
     global cantidad
-    arrsort=[]
-    for k in arr:
-        arrsort.append(k)
-        for i in range(len(arrsort)-2,-1,-1):
-            if(arrsort[i]>arrsort[i+1]):
-                q=arrsort[i]
-                arrsort[i]=arrsort[i+1]
-                arrsort[i+1]=q
+    arrsort=arr[:]
+    for i in range(len(arr)):
+        for j in range(i-1,-1,-1):
+            if(arrsort[j]>arrsort[j+1]):
+                arrsort[j],arrsort[j+1]=arrsort[j+1],arrsort[j]
                 cantidad+=1
             else:
                 break
     return arrsort
+
+import random
+p = random.sample(range(0,200),100)
+print(p)
+psorted=insertionsort(p)
+print(cantidad)
+print(psorted)
