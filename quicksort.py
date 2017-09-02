@@ -5,16 +5,19 @@ def quicksort(arr):
     if arr==[] :
         return []
     m=arr[0]
-    cnt=0
     left=[]
     right=[]
-    for k in arr:
-        cantidad+=1
-        if k==m:
-            cnt+=1
+    for k in arr[1:]:
+        if k<m:
+            left.append(k)
         else:
-            if k<m:
-                left.append(k)
-            else:
-                right.append(k)
-    return quicksort(left)+([m]*cnt)+quicksort(right)
+            right.append(k)
+        cantidad+=1
+    return quicksort(left)+[m]+quicksort(right)
+
+import random
+p = random.sample(range(0,200),100)
+print(p)
+psorted=quicksort(p)
+print(cantidad)
+print(psorted)
