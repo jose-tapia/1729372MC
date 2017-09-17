@@ -275,6 +275,12 @@ Por lo tanto, podemos concluir que los algoritmos m\'as eficientes resultaron se
  tardar\'a m\'as que un $\textcolor{deepgreen}{\mathrm{Insertion Sort}}$. Aunque, de manera general, se espera que el $\textcolor{red}{\mathrm{QuickSort}}$
  tenga complejidad  $\mathcal{O}(nlog{}n)$ y el $\textcolor{deepgreen}{\mathrm{Insertion Sort}}$ $\mathcal{O}(n^2)$.
 
+
+Antes de verlo en pr\'actica no me sorprender\'ia que la computadora ordenar\'a miles de datos en cuesti\'on de segundos, pero al simular el ordenamiento de los 1500 arreglos, resulto que se tard\'o varios minutos en ordenarlos con los cuatro algoritmos. Me result\'o interesante, ya que despu\'es de eso, ordene solo con $\textcolor{red}{\mathrm{QuickSort}}$ y la diferencia fue abrumadora, ya que en tan solo segundos se hab\'ian ordenado.
+
+En estas pruebas fueron miles, pero tenemos que tener en cuenta que en la vida real puede que se necesite ordenar arreglos demasiados extensos,  y por ello es conveniente aprender y desarrollar mejores formas de realizar las cosas, en este caso, ordenar.
+
+
 \section{Detalles de implementaci\'on}
 
 Al principio no sab\'ia bien que onda con la sintaxis de Python, qu\'e tipo de cosas pod\'ia hacer en Python, c\'omo pod\'ia hacer aquello tipo de cosas, qu\'e similitudes tiene con C++, c\'omo leer datos y c\'omo imprimir, estas y muchas otras m\'as dudas me invadieron al principio. Pero viendo la aplicaci\'on de las funciones y operaciones, los ejemplos del profe y de internet, pues fu\'i aprendiendo y ya pod\'ia adaptarlo de acuerdo a lo que necesitar\'a en el momento. 
@@ -285,5 +291,4 @@ Para implementar $\textcolor{deepgreen}{\mathrm{Insertion Sort}}$ tuve el proble
 Aun teniendo la opci\'on de simular el $\pythoninline{for}$ con un $\pythoninline{while}$ para poder disminuir de uno en uno, prefer\'i investigar si hab\'ia alguna forma para lograrlo, en donde encontre que al hacer $\pythoninline{range(a,b,-1)}$, en donde en vez de tener los n\'umeros en el orden de $\{a,\> a+1,\>\dots,\>b-1\}$ (Con $a<b$), se tiene $\{a,\>a-1,\>\dots,b+1\}$(Con $a>b$) que era lo que buscaba en el momento.
 
 Para implementar $\textcolor{red}{\mathrm{QuickSort}}$, con entender la recursividad que se realizaba y demostrar que el caso base de tener el elemento vac\'io (o de un s\'olo elemento) era suficiente, ayud\'o a que no se me dificultar\'a la implementaci\'on del mismo. Aqu\'i hice uso de la concatenaci\'on de arreglos, lo cual me hace gracia lo sencillo que es en Python, mientras que en C++ se necesita m\'as l\'ineas. 
-
 \end{document}
