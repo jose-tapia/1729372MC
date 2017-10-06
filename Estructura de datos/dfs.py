@@ -61,4 +61,5 @@ graph.conecta(6,7)
 graph.conecta(7,8)
 graph.conecta(8,9)
 print(DFS(graph,1))
-            
+#[1, 6, 7, 8, 9, 2, 3, 4, 5]
+
