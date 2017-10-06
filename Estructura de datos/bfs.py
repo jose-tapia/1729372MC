@@ -58,5 +58,5 @@ graph.conecta(1,6)
 graph.conecta(6,7)
 graph.conecta(7,8)
 graph.conecta(8,9)
-print(BFS(graph,1))
-            
+print(BFS(graph,1))    
+#[1, 2, 6, 3, 7, 4, 8, 5, 9]
