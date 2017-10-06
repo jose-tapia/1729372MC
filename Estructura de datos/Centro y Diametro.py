@@ -153,3 +153,8 @@ print(BFS(G,1))
 print(DFS(G,1))
 print(diametro(G))
 print(centro(G))
+
+#[1, 2, 3, 4, 6, 5, 7, 8]
+#[1, 2, 3, 6, 4, 7, 5, 8]
+#[5, 1, 8]
+#[3, 3]
