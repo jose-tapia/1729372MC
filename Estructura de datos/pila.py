@@ -21,3 +21,8 @@ print(pila.obtener())
 print(pila.obtener())
 print(pila.obtener())
 print(pila.longitud)
+# 3
+# hola
+# a
+# 4
+# 0
