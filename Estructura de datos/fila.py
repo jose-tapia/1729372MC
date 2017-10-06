@@ -22,7 +22,7 @@ print(fila.obtener())
 print(fila.obtener())
 print(fila.longitud)
 # 3
-# hola
-# a
 # 4
+# a
+# hola
 # 0
