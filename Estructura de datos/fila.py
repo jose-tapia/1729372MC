@@ -1,5 +1,5 @@
 
-class Cola(object):
+class Fila(object):
     def __init__(self):
         self.a=[]
     def obtener(self):
@@ -12,12 +12,17 @@ class Cola(object):
         return len(self.a)
 
 
-cola=Cola()
-cola.meter(4)
-cola.meter('a')
-cola.meter("hola")
-print(cola.longitud)
-print(cola.obtener())
-print(cola.obtener())
-print(cola.obtener())
-print(cola.longitud)
+fila=Fila()
+fila.meter(4)
+fila.meter('a')
+fila.meter("hola")
+print(fila.longitud)
+print(fila.obtener())
+print(fila.obtener())
+print(fila.obtener())
+print(fila.longitud)
+# 3
+# hola
+# a
+# 4
+# 0
