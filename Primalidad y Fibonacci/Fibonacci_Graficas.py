@@ -31,6 +31,16 @@ def fiboiter(n):
         fib.append(fib[k-1]+fib[k-2])
     return fib[n]
 
+def fiboiterativo(n):#Notemos que es la misma cantidad de operaciones que fiboiter(n)
+	fib1,fib2=1,1
+    global cnt
+    cnt+=1
+	for k in range(2,n+1):
+		cnt+=1
+        fib=fib1+fib2
+		fib1=fib2
+		fib2=fib
+	return fib2
 
 #Hasta 50
 maximo=50
