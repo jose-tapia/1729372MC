@@ -1,0 +1,246 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage[latin1]{inputenc}
+\usepackage[spanish]{babel}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage[usenames]{color}
+\usepackage{xcolor}
+\usepackage[spanish, onelanguage, linesnumbered,lined,boxed,commentsnumbered]{algorithm2e}
+
+% Default fixed font does not support bold face
+\DeclareFixedFont{\ttb}{T1}{txtt}{bx}{n}{12} % for bold
+\DeclareFixedFont{\ttm}{T1}{txtt}{m}{n}{12}  % for normal
+% Custom colors
+\usepackage{color}
+\definecolor{deepblue}{rgb}{0,0,0.5}
+\definecolor{deepred}{rgb}{0.6,0,0}
+\definecolor{deepgreen}{rgb}{0,0.5,0}
+
+\usepackage{listings}
+
+% Python style for highlighting
+\newcommand\pythonstyle{\lstset{
+language=Python,
+basicstyle=\ttm,
+otherkeywords={self},             % Add keywords here
+keywordstyle=\ttb\color{deepblue},
+emph={MyClass,__init__},          % Custom highlighting
+emphstyle=\ttb\color{deepred},    % Custom highlighting style
+stringstyle=\color{deepgreen},
+frame=tb,                         % Any extra options here
+showstringspaces=false            % 
+}}
+
+
+% Python environment
+\lstnewenvironment{python}[1][]
+{
+\pythonstyle
+\lstset{#1}
+}
+{}
+
+% Python for external files
+\newcommand\pythonexternal[2][]{{
+\pythonstyle
+\lstinputlisting[#1]{#2}}}
+
+% Python for inline
+\newcommand\pythoninline[1]{{\pythonstyle\lstinline!#1!}}
+
+
+
+\newcommand{\dijkstra}{$\textcolor{deepblue}{\mathrm{Dijkstra}}\>$}
+\newcommand{\grafo}{$\textcolor{deepgreen}{\mathrm{Grafo}}\>$}
+\newcommand{\forcond}{$i=0$ \KwTo $n$}
+\SetKwFunction{FRecurs}{FnRecursive}%
+\SetKwFunction{selectionSort}{selectionSort}
+
+\SetKwFunction{insertionSort}{insertionSort}
+\SetKwFunction{quickSort}{quickSort}
+\SetKwFunction{bubbleSort}{bubbleSort}
+\SetStartEndCondition{ }{}{}%
+\SetKwProg{Fn}{def}{\string:}{}
+\SetKwFunction{Range}{range}%%
+\SetKw{KwTo}{en}\SetKwFor{For}{Para}{\string:}{}%
+\SetKwIF{If}{ElseIf}{Else}{Si}{:}{Sino, Si}{en caso contrario:}{}%
+\SetKwFor{While}{Mientras}{:}{fin}%
+\renewcommand{\forcond}{$i$ \KwTo\Range{$n$}}
+\AlgoDontDisplayBlockMarkers\SetAlgoNoEnd\SetAlgoNoLine
+\AlgoDisplayBlockMarkers\SetAlgoBlockMarkers{ }{ }%
+\SetAlgoNoEnd
+\SetKw{Return}{Regresar}%
+
+\usepackage[left=2cm,right=2cm,top=2cm,bottom=2cm]{geometry}
+\author{
+Jos\'e Manuel Tapia Avitia.\\
+Matr\'icula: 1729372\\ 
+\texttt{jose.tapiaav@gmail.com}\\
+\texttt{https://github.com/jose-tapia/1729372MC}
+}
+\title{Reporte de algoritmo de Dijkstra}
+
+\begin{document}
+\maketitle
+
+El presente reporte tiene la finalidad de analizar y mostrar el algoritmo de Dijkstra, su comportamiento en grafos y el como podr\'iamos implementarlo en Python.
+
+\section{$\textcolor{deepblue}{\mathrm{Dijkstra}}$}
+Comunmente queremos llegar a nuestro destino lo m\'as pronto posible, ya sea para por un compromiso o por el simple hecho de querer optimizar ciertos aspectos cotidianos, solo que tenemos el problema de tener distintos caminos y/o rutas para tomar, y de manera clara, no podemos recorrer todas para saber cu\'al es la mejor. Si planteamos nuestros caminos y rutas en un \grafo como aristas con peso, el algoritmo de \dijkstra nos ayuda a conseguir dicho objetivo con una complejidad realmente buena.
+
+Definiremos como "ruta" aquel camino consistente de aristas del grafo, con punto de partida el nodo inicial y final aquel en donde nos encontremos.
+
+El algoritmo que implementaremos necesita un \grafo y el nodo inicial, en donde se realizar\'a lo siguiente:
+\begin{itemize}
+	\item Comenzamos nuestra ruta en el nodo inicial, con una distancia recorrida de 0.
+	\item Dentro de las rutas alcanzadas, nos tomaremos la que tenga la menor distancia.
+	\item De esta ruta, la expandiremos a sus nodos adyacentes, si estos no han sido ya visitados por una ruta , agregando estas nuevas rutas a nuestro conjunto de rutas con la nueva distancia recorrida.
+	\item El proceso se repite hasta ya no tener m\'as rutas.
+\end{itemize}
+
+Todo suena muy f\'acil por el momento... pero surge un problema, \textquestiondown c\'omo podemos obtener la ruta con menor distancia?
+
+La primer idea que podemos tener podr\'ia se la de tener un arreglo con las rutas. Agregar una ruta ser\'ia en constante con un $append$. Cada vez que necesitemos la ruta con distancia \'optima, buscarla. En caso de querer eliminarla, tendr\'iamos que buscarla y luego eliminarla. Lo malo de esta idea es que ambas operaciones, buscar y eliminar, tienen complejidad $\mathcal{O}(n)$, en donde $n$ es la longitud del arreglo. 
+
+Otra idea no tan mala podr\'ia ser el ordenar el arreglo de manera que la ruta con menor distancia este a nuestro alcance siempre. As\'i lograr\'iamos que las operaciones de buscar y eliminar tengan complejidad $\mathcal{O}(1)$, pero la desventaja es que tendr\'iamos que ordenar el arreglo cada que tengamos que agregar una ruta, de manera m\'as optima, podria ser complejidad $\mathcal{O}(n)$ agregando una sola ruta, o un conjuntto de rutas en $\mathcal{O}(nlog{}n)$, lo cu\'al sigue siendo una mala complejidad.
+
+Podemos auxiliarnos de una estructura de datos que nos permite realizar cada operaci\'on en complejidad $\mathcal{O}(log{}n)$, lo cu\'al nos garantiza una eficiencia en el algoritmo muy buena. Dicha estructura es la del $Heap$. Yo la implemente con los siguientes m\'etodos:
+\begin{itemize}
+	\item $\_\_init\_\_$: Necesaria para inicializar el $Heap$.
+	\item $empty()$: Retorna verdadero si el $Heap$ no tiene elementos o falso en caso de tenerlos.
+	\item $top()$: Retorna el menor elemento que se encuentre en el $Heap$.
+	\item $push(x)$: Agrega al $Heap$ el elemnto x.
+	\item $pop()$: Retorna y elimina del $Heap$ el menor elemento que se encuentre en el momento. 
+\end{itemize}
+
+La implementaci\'on en Python que realice es la siguiente:
+
+\begin{python}
+class Heap(object):
+    def __init__(self):
+        self.hp=[0]
+
+    def empty(self):
+        return len(self.hp)==1
+
+    def top(self):
+        if len(self.hp)>1:
+            return self.hp[1]
+        else:
+            return None
+
+    def push(self,x):
+        tam=len(self.hp)
+        w=tam
+        self.hp.append(x)
+        while w>0:
+            ww=int(w/2)
+            if ww>0:
+                if self.hp[ww]>self.hp[w]:
+                    self.hp[ww],self.hp[w],w=self.hp[w],self.hp[ww],ww
+                else:
+                    break
+            else:
+                break
+
+    def pop(self):
+        tam=len(self.hp)-1
+        self.hp[1],self.hp[tam]=self.hp[tam],self.hp[1]
+        tam-=1
+        w=1
+        while w<=tam:
+            i,d=self.hp[w],self.hp[w]
+            if 2*w<=tam:
+                i=self.hp[2*w]
+            if 2*w+1<=tam:
+                d=self.hp[2*w+1]
+            if self.hp[w]>i or self.hp[w]>d:
+                if i<d:
+                    self.hp[w],self.hp[2*w]=self.hp[2*w],self.hp[w]
+                    w=2*w
+                else:
+                    self.hp[w],self.hp[2*w+1]=self.hp[2*w+1],self.hp[w]
+                    w=2*w+1
+            else:
+                break
+        return self.hp.pop()
+        
+\end{python}
+
+El $Heap$ nos sirve particularmente para el problema que tuvimos, puesto que podemos visualizarlo como un conjunto que nos permite agregar elementos, preguntar por el menor elemento y eliminarlo de manera eficaz. Cabe a resaltar que el $Heap$ lo implemente en una clase, para poder crear diversos $Heap's$.
+
+La implementaci\'on de \dijkstra se realizar\'a como un m\'etodo de la clase \grafo ya que esto nos permite un manejo m\'as como del mismo.
+
+Mostraremos primero la clase de \grafo que tenemos actualmente y despu\'es de ello el m\'etodo de \dijkstra ya implementado.
+
+\begin{python}
+class Grafo(object):
+    def __init__(self):
+        self.vertices=set()
+        self.aristas=dict()
+        self.vecinos=dict()
+        
+    def agrega(self,v):
+        self.vertices.add(v)
+        if not v in self.vecinos:
+            self.vecinos[v]=set()
+            
+    def conecta(self,u,v,peso=1):
+        self.agrega(u)
+        self.agrega(v)
+        self.aristas[(u,v)]=self.aristas[(v,u)]=peso
+        self.vecinos[u].add(v)
+        self.vecinos[v].add(u)
+        
+    @property
+    def complemento(self):
+        comp=Grafo()
+        for a in self.vertices:
+            for b in self.vertices:
+                if a!=b and (a,b) not in self.aristas:
+                    comp.conecta(a,b,1)
+
+
+\end{python}
+\newpage
+El m\'etodo de \dijkstra es:
+\begin{python}
+  def dijkstra(self,ini):
+        bsq=Heap()
+        bsq.push((0,ini,()))
+        visitados=set()
+        respuesta=dict()
+        while not bsq.empty():
+            (dist,nodo,path)=bsq.pop()
+            if nodo in visitados:
+                continue
+            visitados.add(nodo)
+            respuesta[nodo]=(dist,descomponer((nodo,path)))
+            for w in self.vecinos[nodo]:
+                if w in visitados:
+                    continue
+                d=self.aristas[(nodo,w)]
+                bsq.push((d+dist,w,(nodo,path)))
+        return respuesta
+\end{python}
+
+En la implementaci\'on podemos ver la implementaci\'on casi directa del algoritmo descrito inicialmente. Para almacenar las rutas optimas, hacemos uso de un diccionario en donde a cada nodo le es asignado el camino m\'as optimo junto a su distancia o ning\'un camino. Para poder almacenar el camino de manera sencilla se hizo uso del poder de los parentesis, mejor conocido como tuplas. En donde $(x_n,(x_{n_1},(x_{n-2},(\dots (x_2,\>x_1) \dots) ) ) )$ representa el camino $[x_1,\>x_2,\>x_3,\dots,\>x_n]$, es decir, inicia en $x_1$, camina a $x_2$, que continua por $x_3$, $\dots$ as\'i hasta llegar a $x_n$. Podemos ver en donde se realiza dicha comprensi\'on en la tupla que se inserta en el $Heap$ $bsq$ al momento de expandirse en sus vecinos $w$ el $nodo$. usamos la funci\'on $descomponer$ que recibe una tupla de la forma $(x_n,(x_{n_1},(x_{n-2},(\dots (x_2,\>x_1) \dots) ) ) )$ y regresa un arreglo con el camino $[x_1,\>x_2,\>x_3,\dots,\>x_n]$. Dicha funci\'on es la que siguiente:
+
+\begin{python}
+def descomponer(w):
+    if w==():
+        return []
+    (x,y)=w
+    return descomponer(y)+[x]
+\end{python}
+
+
+
+
+\section{Detalles de implementaci\'on}
+El algoritmo de \dijkstra es f\'acil de entender, e inclusive la implementaci\'on no es del otro mundo. Lo \'unico que resulto m\'as complicado fue el tener bien estructurado que se realizar\'a y en que orden. Adem\'as de tener las estructuras adecuadas, tal como el $Heap$. Me resulto divertido el implementar un $Heap$ en Python, teniendo en cuenta que llevaba tiempo sin implementar uno, puesto que en C++ se encontraba un estilo de $Heap$ ya implementado, la $priority\_queue$. E igual me agrado la idea de comprimir el camino en tuplas y el como descomponerla, ingeniosa la forma de aprovechar las herramientas que Python nos aporta.
+
+
+\end{document}
