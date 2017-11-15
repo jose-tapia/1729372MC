@@ -13,7 +13,7 @@ def esPrimo(n):
         m+=1
     return cnt
 
-cntprm=[itsPrime(x) for x in range(1,100001,1000)]
+cntprm=[esPrimo(x) for x in range(1,100001,1000)]
 
 x=np.linspace(1,100000)
 plt.plot(range(1,100001,1000),cntprm, label="Test de primalidad")
